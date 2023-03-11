@@ -32,44 +32,42 @@ class _Transaction_ScreenState extends State<Transaction_Screen> {
         margin: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: TransactionData.transaction_History
-                  .map(
-                    (item) => Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: ListTile(
-                          leading: Text(
-                            item.amount > 0 ? '+${item.amount}k' : '${item.amount}k',
-                            style: TextStyle(
-                              color: item.amount > 0 ? Colors.green : Colors.red,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          title: Container(
-                            margin: const EdgeInsets.only(bottom: 6),
-                            child: Text(item.context, style: TextStyle(fontSize: 18)),
-                          ),
-                          subtitle: Text(item.date),
-                          trailing: IconButton(
-                              onPressed: () {
-                                // TransactionData.transaction_History.();
-                              },
-                              icon: Icon(Icons.delete_forever)),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var i = 0; i < TransactionData.transaction_History.length; i++)
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: ListTile(
+                      leading: Text(
+                        TransactionData.transaction_History[i].amount > 0
+                            ? '+${TransactionData.transaction_History[i].amount}k'
+                            : '${TransactionData.transaction_History[i].amount}k',
+                        style: TextStyle(
+                          color: TransactionData.transaction_History[i].amount > 0 ? Colors.green : Colors.red,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
+                      title: Container(
+                        margin: const EdgeInsets.only(bottom: 6),
+                        child: Text(TransactionData.transaction_History[i].context, style: TextStyle(fontSize: 18)),
+                      ),
+                      subtitle: Text(TransactionData.transaction_History[i].date),
+                      trailing: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              TransactionData.transaction_History.removeAt(i);
+                            });
+                          },
+                          icon: Icon(Icons.delete_forever)),
                     ),
-                  )
-                  .toList()
-              // Card(
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(16),
-              //     child: Text('Ăn sáng 20k'),
-              //   ),
-              // ),
-
-              ),
+                  ),
+                ),
+            ],
+            // Card(
+            // ),
+          ),
         ),
       ),
     );
